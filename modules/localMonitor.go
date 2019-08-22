@@ -8,17 +8,39 @@ import (
 
 //LocalInfo structure
 type LocalInfo struct {
-	IPs []string
+	IPs     []string
+	changed bool
 }
 
 // Run is the interface of cron doing tasks.
 func (l *LocalInfo) Run() {
-	var err error
-	l.IPs, err = l.GetIP()
+	// var err error
+	newIPs, err := l.GetIP()
 	if err != nil {
 		log.Println(" Failed to get IP.")
 	}
+	l.changed = l.isChanged(newIPs)
+	if l.changed {
+		l.IPs = newIPs
+	}
 	log.Println(l.IPs)
+}
+
+// isChanged is used to check whether the local data is changed.
+func (l *LocalInfo) isChanged(newData []string) bool {
+	var find bool
+	for _, newS := range newData {
+		find = false
+		for _, s := range l.IPs {
+			if newS == s {
+				find = true
+			}
+		}
+		if !find {
+			return true
+		}
+	}
+	return false
 }
 
 //GetIP is used to get the IP list of  local computer.

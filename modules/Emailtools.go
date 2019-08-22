@@ -22,7 +22,12 @@ type EmailInfo struct {
 
 // Run is the interface of cron doing tasks.
 func (e EmailInfo) Run() {
-	err := e.SendEmail(e.LocalInfo.IPs)
+	var err error
+	// log.Println("Enter Sender")
+	if e.LocalInfo.changed {
+		err = e.SendEmail(e.LocalInfo.IPs)
+		// log.Println(e.LocalInfo.IPs)
+	}
 	if err != nil {
 		log.Println("Failed to send emails.")
 	}
