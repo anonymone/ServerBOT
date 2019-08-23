@@ -26,6 +26,7 @@ func (e EmailInfo) Run() {
 	// log.Println("Enter Sender")
 	if e.LocalInfo.changed {
 		err = e.SendEmail(e.LocalInfo.IPs)
+		e.LocalInfo.changed = !e.LocalInfo.changed
 		// log.Println(e.LocalInfo.IPs)
 	}
 	if err != nil {

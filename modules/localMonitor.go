@@ -19,9 +19,10 @@ func (l *LocalInfo) Run() {
 	if err != nil {
 		log.Println(" Failed to get IP.")
 	}
-	l.changed = l.isChanged(newIPs)
+	changed := l.isChanged(newIPs)
 	if l.changed {
 		l.IPs = newIPs
+		l.changed = changed
 	}
 	log.Println(l.IPs)
 }
