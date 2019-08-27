@@ -21,7 +21,7 @@ type EmailInfo struct {
 }
 
 // Run is the interface of cron doing tasks.
-func (e EmailInfo) Run() {
+func (e *EmailInfo) Run() {
 	var err error
 	// log.Println("Enter Sender")
 	if e.LocalInfo.changed {

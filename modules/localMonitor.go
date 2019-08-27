@@ -20,7 +20,7 @@ func (l *LocalInfo) Run() {
 		log.Println(" Failed to get IP.")
 	}
 	changed := l.isChanged(newIPs)
-	if l.changed {
+	if changed {
 		l.IPs = newIPs
 		l.changed = changed
 	}
