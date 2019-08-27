@@ -21,12 +21,11 @@ type EmailInfo struct {
 }
 
 // Run is the interface of cron doing tasks.
-func (e *EmailInfo) Run() {
+func (e EmailInfo) Run() {
 	var err error
 	// log.Println("Enter Sender")
 	if e.LocalInfo.changed {
 		err = e.SendEmail(e.LocalInfo.IPs)
-		e.LocalInfo.changed = !e.LocalInfo.changed
 		// log.Println(e.LocalInfo.IPs)
 	}
 	if err != nil {
@@ -35,7 +34,8 @@ func (e *EmailInfo) Run() {
 }
 
 // SendEmail is a simple method for sending emails.
-func (e EmailInfo) SendEmail(ips []string) (err error) {
+func (e *EmailInfo) SendEmail(ips []string) (err error) {
+	e.LocalInfo.changed = !e.LocalInfo.changed
 	for _, ip := range e.LocalInfo.IPs {
 		e.Message += ip + "\n"
 	}
