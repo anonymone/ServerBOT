@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/smtp"
 	"strconv"
+	"strings"
 )
 
 // EmailInfo is including the information of email initializetion
@@ -47,10 +48,8 @@ func (e *EmailInfo) SendEmail(ips []string) (err error) {
 		e.APICredit,
 		e.ServerHost,
 	)
-	sendList := e.Receiver[0]
-	for _, user := range e.Receiver[1:] {
-		sendList += ";" + user
-	}
+	sendList := strings.Join(e.Receiver, ",")
+	log.Println("To: " + sendList + "\r\nFrom: " + e.Sender + "\r\nSubject: IPChanged Reports\r\nContent-Type: text/plain; charset=UTF-8\r\n\r\n")
 	err = smtp.SendMail(
 		e.ServerHost+":"+strconv.Itoa(e.ServerPort),
 		auth,
